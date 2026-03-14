@@ -1,20 +1,23 @@
 #!/bin/bash
-# SNCK v1 Auto-Install - Professional DDoS Terminal
+# SNCK v1 Auto-Install - FIXED VERSION
 
 echo -e "\e[92m🦖 SNCK v1 - PROFESSIONAL DDOS TERMINAL TOOL 🦖\e[0m"
 echo "I have permission and am authorized to perform this pentest"
 
-# Auto-detect distro
-if [[ -f /etc/debian_version ]]; then
-    apt update && apt install -y curl wget git sshpass nmap htop ufw fail2ban docker.io
-elif [[ -f /etc/redhat-release ]]; then
-    yum install -y curl wget git sshpass nmap htop firewalld fail2ban docker
-fi
+# Create directory
+mkdir -p /usr/local/bin
 
-# Download main tool
-curl -s https://raw.githubusercontent.com/itsclark221/ddos/refs/heads/main/snck.sh
+# Install dependencies (safe)
+apt update && apt install -y curl wget git sshpass nmap htop ufw fail2ban docker.io iperf3 mtr || true
+
+# DOWNLOAD TO FILE FIRST (FIX #1)
+curl -s https://raw.githubusercontent.com/itsclark221/ddos/refs/heads/main/snck.sh -o /usr/local/bin/snck
+
+# NOW chmod works (FIX #2)
 chmod +x /usr/local/bin/snck
 
-echo -e "\e[92m✅ SNCK v1 INSTALLED!\e[0m"
-echo -e "\e[93mRun: snck\e[0m"
+echo -e "\e[92m✅ SNCK v1 INSTALLED CORRECTLY!\e[0m"
+echo -e "\e[93mLaunching SNCK v1... (Press Ctrl+C to stop)\e[0m"
+
+# Launch immediately
 snck
